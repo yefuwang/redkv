@@ -3,8 +3,22 @@ const mocha = require('gulp-mocha');
 
 gulp.task('t', () => {
     process.env.NODE_ENV='test';
-    return gulp.src('test/test_factory.js', {read: false})
+    return gulp.src('test/test_*.js', {read: false})
     .pipe(mocha({"exit":true,"bail":true}))
+    .once('error', () => {
+        console.log('Exit by error');
+        process.exit(1);
+    })
+    .once('end', () => {
+        process.exit();
+    })
+    ;
+});
+
+gulp.task('test', () => {
+    process.env.NODE_ENV='test';
+    return gulp.src('test/test_*.js', {read: false})
+    .pipe(mocha({"exit":true,"bail":true, "reporter":"spec"}))
     .once('error', () => {
         console.log('Exit by error');
         process.exit(1);

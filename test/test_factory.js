@@ -46,7 +46,7 @@ describe('redkv with dynamodb', function(){
     let kvStore = new RedKV();
     kvStore.addStore('dynamodb', {
         region: "us-east-1",
-        endpoint: "https://dynamodb.us-east-1.amazonaws.com",
+        endpoint: process.env.DDB_ENDPOINT ||  "https://dynamodb.us-east-1.amazonaws.com",
         httpOptions: {
             timeout:3000
         },
@@ -206,7 +206,7 @@ describe('redis+ 2* dynamodb, redis lost', function(){
     let redis = kvStore.addStore('redis');
     let ddb = kvStore.addStore('dynamodb', {
         region: "us-east-1",
-        endpoint: "https://dynamodb.us-east-1.amazonaws.com",
+        endpoint: process.env.DDB_ENDPOINT || "https://dynamodb.us-east-1.amazonaws.com",
         httpOptions: {
             timeout:3000
         },
@@ -214,7 +214,7 @@ describe('redis+ 2* dynamodb, redis lost', function(){
     });
     let ddb2 = kvStore.addStore('dynamodb', {
         region: "us-east-1",
-        endpoint: "https://dynamodb.us-east-1.amazonaws.com",
+        endpoint: process.env.DDB_ENDPOINT || "https://dynamodb.us-east-1.amazonaws.com",
         httpOptions: {
             timeout:3000
         },

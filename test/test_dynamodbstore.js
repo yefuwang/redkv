@@ -6,14 +6,16 @@ const chai = require('chai');
 const should = chai.should();
 
 describe('dynamodbStore basic', function(){
+    this.timeout(10000);
     let conf={
         region: "us-east-1",
-        endpoint: "https://dynamodb.us-east-1.amazonaws.com",
+        endpoint: process.env.DDB_ENDPOINT || "https://dynamodb.us-east-1.amazonaws.com",
         httpOptions: {
             timeout:3000
         },
         tableName:  'dev.calculator'
     };
+    console.log('Using ddb: ' + conf.endpoint);
 
     let dynamodb = new DynamodbStore(conf);
     let key = 'testKey';

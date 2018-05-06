@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "gulp t"
+    "test": "./node_modules/istanbul/lib/cli.js  cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --bail --exit && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
-  "author": "",
+  "author": "Yefu Wang",
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.231.1",
@@ -15,8 +15,11 @@
     "try-require": "^1.2.1"
   },
   "devDependencies": {
+    "coveralls": "^3.0.1",
     "dotenv": "^5.0.1",
     "gulp": "^3.9.1",
-    "gulp-mocha": "^5.0.0"
+    "gulp-mocha": "^5.0.0",
+    "istanbul": "^0.4.5",
+    "mocha-lcov-reporter": "^1.3.0"
   }
 }
