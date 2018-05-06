@@ -3,7 +3,6 @@ const redis = require('redis');
 const {promisify} = require('util');
 
 class RedisStore {
-
     constructor(options){
         this.client = redis.createClient(options);
         this.get = promisify(this.client.get).bind(this.client);
@@ -21,5 +20,5 @@ class RedisStore {
     }
 };
 
-
 module.exports = RedisStore;
+

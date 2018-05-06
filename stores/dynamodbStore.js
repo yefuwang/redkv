@@ -29,7 +29,8 @@ class DynamoDBStore {
                 }
 
                 if(!that.hashKey){
-                    return Promise.reject('Failed finding hash key in table' +
+                    return Promise.reject(
+                        'Failed finding hash key in table' +
                         options.tableName);
                 }
 
@@ -48,33 +49,48 @@ class DynamoDBStore {
     delete(key){
         let params = {TableName: this.tableName, Key:{}};
         params.Key[this.hashKey] = key;
-        return this.docClient.delete(params).promise();
+        return this.ready().then(()=>
+            this.docClient.delete(params).promise());
     }
 
     get(key){
         let params = {TableName: this.tableName, Key:{}};
         params.Key[this.hashKey] = key;
         let that = this;
-        return this.docClient.get(params)
-            .promise()
-            .then(val=>((val||{}).Item||{})[that.attributeName]);
+        return this.ready().then(()=>{
+            return this.docClient.get(params).promise(); 
+        })
+        .then(val=>{
+            let found = ((val||{}).Item||{})[that.attributeName];
+            if (found === undefined) {
+                found = null;// this is what the API doc says
+            }
+            return found;
+        });
     }
 
     set(key, value){
+        if(value===undefined || value===null){
+            return Promise.reject(
+            'The value cannot be undefined or null');
+        }
+
         let params = {TableName: this.tableName,
             Item:{
                 [this.attributeName]: value
             }
         };
         params.Item[this.hashKey] = key;
-        return this.docClient.put(params).promise();
+        return this.ready().then(()=>{
+            return this.docClient.put(params).promise();
+        });
     }
 
     has(key){
-        console.log('ddb.has'+key);
         return this.get(key)
-            .then(obj=>obj!==undefined);
+            .then(obj=>obj!==null);
     }
 };
 
 module.exports = DynamoDBStore;
+

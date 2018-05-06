@@ -16,6 +16,10 @@ class RedKV {
     }
 
     set(key, value) {
+        if(value===undefined || value===null){
+            return Promise.reject(
+            'The value cannot be undefined or null');
+        }
         return Promise.all(this._stores.map(x=>x.set(key, value)));
     }
 
@@ -31,7 +35,7 @@ class RedKV {
             function(promise, store, index) {
                 return promise
                     .then(val=>{
-                        if(val !== null) {
+                        if(val !== null && val !== undefined) {
                             return val;
                         }
                         else {
@@ -57,8 +61,14 @@ class RedKV {
         let that = this;
         return getAction.then(val=>{
             value=val;
-            return Promise.all(
-                failedStores.map(x=>that._stores[x].set(key, value)));
+            if(value == undefined && value == null){
+                return Promise.resolve(value);
+            }
+            else {
+                return Promise.all(
+                    failedStores.map(
+                        x=>that._stores[x].set(key, value)));
+            }
         })
         .then(()=>value);
     }

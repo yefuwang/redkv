@@ -17,16 +17,19 @@ describe('dynamodbStore basic', function(){
 
     let dynamodb = new DynamodbStore(conf);
     let key = 'testKey';
+    let keyNotExist = 'keyDoNotExist';
 
     before((done)=>{
         dynamodb.ready()
             .then(()=>dynamodb.delete(key))
+            .then(()=>dynamodb.delete(keyNotExist))
             .then(()=>done())
             .catch(err=>console.log(err));
     });
 
     after((done)=>{
         dynamodb.delete(key)
+            .then(()=>dynamodb.delete(keyNotExist))
             .then(()=>done())
             .catch(err=>console.log(err));
     });
@@ -47,6 +50,10 @@ describe('dynamodbStore basic', function(){
             .then(val=>{
                 val.should.equal('123');
                 return dynamodb.delete(key);
+            })
+            .then(()=>dynamodb.get(keyNotExist))
+            .then(val=>{
+                should.equal(val, null)
             })
             .then(()=>{
                 done();

@@ -197,6 +197,7 @@ describe('redis+dynamodb, redis lost', function(){
                 done();
             })
             .catch(err=>console.log(err));
+        tExist = 'keyDoNotExist';
     });
 });
 
@@ -222,19 +223,26 @@ describe('redis+ 2* dynamodb, redis lost', function(){
     });
 
     let key = 'testKey3';
+    let keyNotExist = 'keyDoNotExist';
 
-    before((done)=>{
+    before(function(done){
         kvStore.ready()
             .then(()=>kvStore.delete(key))
-            .then(()=>done());
+            .then(()=>kvStore.delete(keyNotExist))
+            .then(()=>done())
+            .catch(err=>console.log(err));
     });
 
-    after((done)=>{
+    after(function(done){
+        console.log('Tear down');
         kvStore.delete(key)
-            .then(()=>done());
+            .then(()=>kvStore.delete(keyNotExist))
+            .then(()=>done())
+            .catch(err=>console.log(err));
     });
 
     it('kvStore only', function(done){
+        this.timeout(5000);
         kvStore.has(key)
             .then((val)=>{
                 val=!!val;
@@ -259,13 +267,28 @@ describe('redis+ 2* dynamodb, redis lost', function(){
             })
             .then(val=>{
                 val.should.equal('123');
+                return Promise.resolve();
+            })
+            .then(()=>kvStore.get(keyNotExist))
+            .then(val=>{
+                console.log('!!!!get non-exist key');
+                should.equal(val, null);
             })
             .then(()=>{
+                console.log('done called');
                 done();
             })
             .catch(err=>console.log(err));
     });
+
+    it('zero value is not null', function(done) {
+        kvStore.set(key, 0)
+            .then(()=>kvStore.has(key))
+            .then(val=>val.should.equal(true))
+            .then(()=>kvStore.get(key))
+            .then(val=>val.should.equal('0'))
+            .then(()=>done())
+            .catch(err=>console.log(err));
+    });
 });
-
-
 
