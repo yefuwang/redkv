@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/yefuwang/redkv/tree/dev.svg?style=svg)](https://circleci.com/gh/yefuwang/redkv/tree/dev)  [![Coverage Status](https://coveralls.io/repos/github/yefuwang/redkv/badge.svg?branch=dev)](https://coveralls.io/github/yefuwang/redkv?branch=dev)
+
 Redkv is a key-value store front end that can connect multiple key-value stores together as a list. A store appears earlier in the list works as a cache to the store later in the list. 
 
 The reading and writing behaves as if it is a caching system. When writing to redkv, the key-value pair gets writtes to all key-value stores. When reading from it, readkv reads sequentially reads from the list of key-value stores until it find the key. After suceeded, it fills the failed stores in front of it. 

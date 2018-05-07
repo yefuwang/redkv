@@ -8,12 +8,14 @@ describe('redisStore basic', function(){
 
     before((done)=>{
         redis.delete(key)
-            .then(()=>done());
+            .then(()=>done())
+            .catch(err=>console.log(err));
     });
     
     after((done)=>{
         redis.delete(key)
-            .then(()=>done());
+            .then(()=>done())
+            .catch(err=>console.log(err));
     });
 
     it('get/set/has', function(done){
