@@ -50,6 +50,7 @@ describe('redkv with dynamodb', function(){
         httpOptions: {
             timeout:3000
         },
+        attributeName: Math.random().toString(36),
         tableName:  'dev.calculator'
     });
 
@@ -100,6 +101,7 @@ describe('redkv with redis+dynamodb', function(){
         httpOptions: {
             timeout:3000
         },
+        attributeName: Math.random().toString(36),
         tableName:  'dev.calculator'
     });
 
@@ -150,6 +152,7 @@ describe('redis+dynamodb, redis lost', function(){
         httpOptions: {
             timeout:3000
         },
+        attributeName: Math.random().toString(36),
         tableName:  'dev.calculator'
     });
 
@@ -210,6 +213,7 @@ describe('redis+ 2* dynamodb, redis lost', function(){
         httpOptions: {
             timeout:3000
         },
+        attributeName: Math.random().toString(36),
         tableName:  'dev.calculator'
     });
     let ddb2 = kvStore.addStore('dynamodb', {
@@ -219,6 +223,7 @@ describe('redis+ 2* dynamodb, redis lost', function(){
             timeout:3000
         },
         tableName:  'dev.calculator2',
+        attributeName: Math.random().toString(36),
         attributeName: 'dearFox'
     });
 

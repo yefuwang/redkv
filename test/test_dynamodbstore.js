@@ -13,7 +13,8 @@ describe('dynamodbStore basic', function(){
         httpOptions: {
             timeout:3000
         },
-        tableName:  'dev.calculator'
+        tableName:  'dev.calculator',
+        attributeName: Math.random().toString(36)
     };
     console.log('Using ddb: ' + conf.endpoint);
 
