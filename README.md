@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/yefuwang/redkv/tree/dev.svg?style=svg)](https://circleci.com/gh/yefuwang/redkv/tree/dev)  [![Coverage Status](https://coveralls.io/repos/github/yefuwang/redkv/badge.svg?branch=dev)](https://coveralls.io/github/yefuwang/redkv?branch=dev)
+[![CircleCI](https://circleci.com/gh/yefuwang/redkv/tree/dev.svg?style=svg)](https://circleci.com/gh/yefuwang/redkv/tree/master)  [![Coverage Status](https://coveralls.io/repos/github/yefuwang/redkv/badge.svg?branch=master)](https://coveralls.io/github/yefuwang/redkv?branch=dev) [![bitHound Overall Score](https://www.bithound.io/github/yefuwang/redkv/badges/score.svg)](https://www.bithound.io/github/yefuwang/redkv)
 
 Redkv is a key-value store front end that can connect multiple key-value stores together as a list. A store appears earlier in the list works as a cache to the store later in the list. 
 
