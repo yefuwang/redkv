@@ -202,7 +202,6 @@ describe('redis+dynamodb, redis lost', function(){
                 done();
             })
             .catch(err=>console.log(err));
-        tExist = 'keyDoNotExist';
     });
 });
 
@@ -278,7 +277,6 @@ describe('redis+ 2* dynamodb, redis lost', function(){
             })
             .then(()=>kvStore.get(keyNotExist))
             .then(val=>{
-                console.log('!!!!get non-exist key');
                 should.equal(val, null);
             })
             .then(()=>{
