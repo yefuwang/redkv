@@ -1,3 +1,5 @@
+'use strict';
+
 const RedisStore = require('./stores/redisStore');
 const DynamodbStore = require('./stores/dynamodbStore');
 

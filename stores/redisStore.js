@@ -1,3 +1,5 @@
+'use strict';
+
 const tryRequire = require('try-require');
 const redis = require('redis');
 const {promisify} = require('util');

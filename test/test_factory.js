@@ -1,3 +1,5 @@
+'use strict';
+
 require('dotenv').config();
 const RedKV = require('../index.js');
 const chai = require('chai');

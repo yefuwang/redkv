@@ -1,3 +1,5 @@
+'use strict';
+
 const tryRequire = require('try-require');
 const DynamoDB = tryRequire("aws-sdk/clients/dynamodb");
 

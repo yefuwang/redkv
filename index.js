@@ -1,3 +1,4 @@
+'use strict';
 const kvStoreFactory = require('./kvStoreFactory');
 
 class RedKV {

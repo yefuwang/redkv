@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp');
 const mocha = require('gulp-mocha');
 
