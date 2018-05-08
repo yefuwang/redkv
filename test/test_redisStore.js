@@ -44,4 +44,30 @@ describe('redisStore basic', function(){
         ;
 
     });
+    
+    it('get/set/has with bluebird', function(done){
+        let redis = new RedisStore({useBlueBird: true});
+        redis.has(key)
+            .then((val)=>{
+                val=!!val;
+                val.should.equal(false);
+                return redis.set(key, '123');
+            })
+            .then(()=>redis.has(key))
+            .then((val)=>{
+                val=!!val;
+                val.should.equal(true);
+            })
+            .then(()=>redis.get(key))
+            .then(val=>{
+                val.should.equal('123');
+                return redis.delete(key);
+            })
+            .then(()=>{
+                done();
+            })
+            .catch(err=>console.log(err))
+        ;
+
+    });
 });

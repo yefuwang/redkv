@@ -66,4 +66,17 @@ describe('dynamodbStore basic', function(){
         ;
 
     });
+
+    it('throws when options not given', function(){
+        should.Throw(
+            ()=>{
+                new DynamodbStore();
+            }
+        );
+        should.Throw(
+            ()=>{
+                new DynamodbStore({});
+            }
+        );
+    });
 });
