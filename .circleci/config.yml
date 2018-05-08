@@ -27,6 +27,35 @@ jobs:
           command: npm install
       - run:
           name: Test
+          command: npm run cover
+      - save_cache:
+          key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-lock-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - save_cache:
+          key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm/_cacache
+  
+  nocover: &nocover
+    docker:
+      - image: node
+    steps:
+      - run:
+          name: Versions
+          command: npm version
+      - checkout
+      - restore_cache:
+          keys:
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-lock-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-lock-master-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Test
           command: npm test
       - save_cache:
           key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-lock-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
@@ -38,12 +67,12 @@ jobs:
             - ~/.npm/_cacache
 
   node-v6:
-    <<: *node-base
+    <<: *nocover
     docker:
       - image: node:6
       - image: redis:4
   node-v8:
-    <<: *node-base
+    <<: *nocover
     docker:
       - image: node:8
       - image: redis:4
@@ -52,3 +81,4 @@ jobs:
     docker:
       - image: node:10
       - image: redis:4
+

@@ -52,6 +52,7 @@ describe('redkv with redis', function(){
 });
 
 describe('redkv with dynamodb', function(){
+    this.timeout(5000);
     let kvStore = new RedKV();
     kvStore.addStore('dynamodb', {
         region: "us-east-1",
@@ -102,6 +103,8 @@ describe('redkv with dynamodb', function(){
 
 
 describe('redkv with redis+dynamodb', function(){
+    this.timeout(5000);
+
     let kvStore = new RedKV();
     kvStore.addStore('redis');
     kvStore.addStore('dynamodb', {
