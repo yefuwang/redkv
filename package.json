@@ -1,6 +1,6 @@
 {
   "name": "redkv",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,10 @@
   },
   "author": "Yefu Wang",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yefuwang/redkv.git"
+  },
   "dependencies": {
     "aws-sdk": "^2.231.1",
     "bluebird": "^3.5.1",
