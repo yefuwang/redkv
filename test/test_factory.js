@@ -5,6 +5,13 @@ const RedKV = require('../index.js');
 const chai = require('chai');
 const should = chai.should();
 
+describe('redkv with unknown db', function(){
+    let kvStore = new RedKV();
+    should.Throw(()=>{
+        kvStore.addStore('missSpelled');
+    });
+});
+
 describe('redkv with redis', function(){
     let kvStore = new RedKV();
     kvStore.addStore('redis');

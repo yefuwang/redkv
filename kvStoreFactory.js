@@ -4,27 +4,24 @@ const RedisStore = require('./stores/redisStore');
 const DynamodbStore = require('./stores/dynamodbStore');
 
 module.exports = function (storeName, options) {
+    let store = null;
     switch(storeName.toUpperCase()){
         case 'REDIS':
             if(RedisStore.available()) {
-                console.log('Constructed redis');
-                return new RedisStore(options); 
-            }
-            else {
-                return null;
+                store = new RedisStore(options); 
             }
             break;
         case 'DYNAMODB':
             if (DynamodbStore.available()) {
-                console.log('Constructed ddb');
-                return new DynamodbStore(options);
-            }
-            else {
-                return null;
+                store= new DynamodbStore(options);
             }
             break;
         default:
-            return null;
+            break;
     }
+    if(!store) {
+        throw new Error('Store '+storeName + ' is not available');
+    }
+    return store;
 };
 
