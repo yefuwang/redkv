@@ -4,7 +4,7 @@ const kvStoreFactory = require('./kvStoreFactory');
 class RedKV {
     constructor(){
         this._stores=[];
-    };
+    }
 
     addStore(storeName, options){
         let store = kvStoreFactory(storeName, options);
@@ -25,7 +25,7 @@ class RedKV {
     }
 
     get(key) {
-        if(this._stores.length==0) {
+        if(this._stores.length === 0) {
             return Promise.reject();
         }
 
@@ -40,14 +40,14 @@ class RedKV {
                             return val;
                         }
                         else {
-                            if (index !=0) {
+                            if (index !==0) {
                                 failedStores.push(index-1);
                             }
                             return store.get(key);
                         }
                     })
                     .catch(()=>{
-                    if (index !=0) {
+                    if (index !==0) {
                         failedStores.push(index-1);
                     }
                     return store.get(key);
@@ -62,7 +62,7 @@ class RedKV {
         let that = this;
         return getAction.then(val=>{
             value=val;
-            if(value == undefined && value == null){
+            if(value === undefined || value === null){
                 return Promise.resolve(value);
             }
             else {
@@ -93,10 +93,10 @@ class RedKV {
                     return store.has(key);
                 }
 
-            })
+            });
         }, 
         Promise.resolve(false));
     }
-};
+}
 
 module.exports = RedKV;
