@@ -71,14 +71,17 @@ jobs:
     docker:
       - image: node:6
       - image: redis:4
+      - image: circleci/mongo:3
   node-v8:
     <<: *nocover
     docker:
       - image: node:8
       - image: redis:4
+      - image: circleci/mongo:3
   node-v10:
     <<: *node-base
     docker:
       - image: node:10
       - image: redis:4
+      - image: circleci/mongo:3
 

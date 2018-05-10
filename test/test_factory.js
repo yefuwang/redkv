@@ -21,7 +21,7 @@ describe('redkv with redis', function(){
         kvStore.delete(key)
             .then(()=>done());
     });
-    
+
     after((done)=>{
         kvStore.delete(key)
             .then(()=>done());
@@ -304,6 +304,58 @@ describe('redis+ 2* dynamodb, redis lost', function(){
             .then(val=>val.should.equal('0'))
             .then(()=>done())
             .catch(err=>console.log(err));
+    });
+
+    describe('redis+mongodb, redis lost', function(){
+        let kvStore = new RedKV();
+        let redis = kvStore.addStore('redis');
+        let mongo = kvStore.addStore('mongodb');
+
+        let key = 'testKey3';
+
+        before((done)=>{
+            kvStore.ready()
+                .then(()=>kvStore.delete(key))
+                .then(()=>done());
+        });
+
+        after((done)=>{
+            kvStore.delete(key)
+                .then(()=>done());
+        });
+
+        it('kvStore only', function(done){
+            kvStore.has(key)
+                .then((val)=>{
+                    val=!!val;
+                    val.should.equal(false);
+                    return kvStore.set(key, '123');
+                })
+                .then(()=>redis.delete(key))
+                .then(()=>kvStore.has(key))
+                .then((val)=>{
+                    val=!!val;
+                    val.should.equal(true);
+                    return redis.has(key);
+                })
+                .then(val=>{
+                    val=!!val;
+                    val.should.equal(false)
+                })
+                .then(()=>kvStore.get(key))
+                .then(val=>{
+                    val.should.equal('123');
+                    return redis.get(key);
+                })
+                .then(val=>{
+                    val.should.equal('123');
+                    return kvStore.delete(key);
+                })
+                .then(()=>{
+                    done();
+                })
+                .catch(err=>console.log(err));
+        });
     });
 });
 

@@ -2,6 +2,7 @@
 
 const RedisStore = require('./stores/redisStore');
 const DynamodbStore = require('./stores/dynamodbStore');
+const MongoDBStore =  require('./stores/mongodbStore');
 
 module.exports = function (storeName, options) {
     let store = null;
@@ -16,6 +17,10 @@ module.exports = function (storeName, options) {
                 store= new DynamodbStore(options);
             }
             break;
+        case 'MONGODB': 
+            if (MongoDBStore.available()) {
+                store= new MongoDBStore(options);
+            }
         default:
             break;
     }

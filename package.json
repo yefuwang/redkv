@@ -1,6 +1,6 @@
 {
   "name": "redkv",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "aws-sdk": "^2.231.1",
     "bluebird": "^3.5.1",
     "chai": "^4.1.2",
+    "mongodb": "^3.0.8",
     "redis": "^2.8.0",
     "try-require": "^1.2.1"
   },
