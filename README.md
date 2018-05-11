@@ -145,10 +145,10 @@ The `options` object will be passed to [dynamodb document client](https://docs.a
 
 In additional to the fields passed to dynamodb document client, the `options` object may contains the following additional fields:
 
-### tableName
+### `tableName`
 The `tableName` is your dynamodb table name. This field is required. 
 
-### attributeName
+### `attributeName`
 
 Optional. If attributeName is set, redkv stores the value in an attribute with the name indicated by the `attributeName` field. If it is not set, it defaults to `'v'`.
 
@@ -164,7 +164,7 @@ kvStore.addStore('mongodb', options);
 ```
 `options` is an object. All fields are optional. Supported fields include `url`, `collection`, `keyField`, `valueField`. 
 
-### url
+### `url`
 The url to the MongoDB instance. If not provided, a default value of `'mongodb://localhost:27017'` is assumed. 
 
 ### `collection`
