@@ -4,6 +4,11 @@ Redkv is a key-value store front end that can connect multiple key-value stores 
 
 The reading and writing behaves as if it is a caching system. When writing to redkv, the key-value pair gets writtes to all key-value stores. When reading from it, readkv reads sequentially reads from the list of key-value stores until it find the key. After suceeded, it fills the failed stores in front of it. 
 
+RedKV supports the following databases as its backend: 
+
+* [Redis](#redisstore)
+* [Dynamodb](#dynamodbstore)
+* [MongoDB](#mongodbstore)
 # Example
 
 Let's create a redkv with a redis store at the front and a dynamodb store at the back end:
@@ -119,7 +124,7 @@ kvStore.delete(key)
 
 # Stores
 
-## redis
+##  <a name="redisstore"></a>redis
 The redis store and be added to a redkv using `'redis'` as the parameter passed to the `addStore` API:
 
 ```javascript
@@ -129,7 +134,7 @@ kvStore.addStore('redis', options);
 
 The `options` object will be passed to [node_redis module](https://github.com/NodeRedis/node_redis). Please refer to redis document for details. 
 
-## dynamodb
+## <a name="dynamodbstore"></a>dynamodb
 The dynamodb store and be added to a redkv using `'dynamodb'` as the parameter passed to the `addStore` API:
 
 ```javascript
@@ -149,6 +154,29 @@ Optional. If attributeName is set, redkv stores the value in an attribute with t
 
 The dynamodb table should contains only one hash key, and no partitional keys. 
 
+## <a name="mongodbstore"></a>MongoDB
+The MongoDB store and be added to a redkv using `'mongodb'` as the parameter passed to the `addStore` API:
+
+```javascript
+let kvStore = new RedKV();
+let options={url:'mongodb://localhost:27017'};
+kvStore.addStore('mongodb', options);
+```
+`options` is an object. All fields are optional. Supported fields include `url`, `collection`, `keyField`, `valueField`. 
+
+### url
+The url to the MongoDB instance. If not provided, a default value of `'mongodb://localhost:27017'` is assumed. 
+
+### `collection`
+
+The collection of MongoDB where the data will be stored. 
+### `keyField`
+
+The field in the collection which will be used to store keys. This field will be used to create an unique index. If ommited, it will default to `'redK'`. 
+
+### `valueField`
+
+The field in the collection which will be used to store values.  If ommited, it will default to `'redV'`. 
 # License
 
-Redkv is released under MIT license. 
+RedKV is released under MIT license. 

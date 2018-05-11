@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const tryRequire = require('try-require');
 const MongoClient = require('mongodb').MongoClient;
