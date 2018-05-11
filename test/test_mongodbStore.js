@@ -6,15 +6,20 @@ const should = chai.should();
 
 describe('storeStore basic', function(){
     let store = new MongoDBStore();
+    let store2 = new MongoDBStore({collection:'StrangeCollection3'});
     let key = 'testKey';
 
-    before((done)=>{
+    before(()=>Promise.all([
         store.ready().then(()=>store.delete(key))
-            .then(()=>done())
-            .catch(err=>console.log(err));
-    });
+            .catch(err=>console.log(err)),
+        store2.ready().then(()=>store2.delete(key))
+            .catch(err=>console.log(err))
+        ]
+    ));
     
     after((done)=>{
+        done();
+        return;
         store.delete(key)
             .then(()=>done())
             .catch(err=>console.log(err));
@@ -52,22 +57,24 @@ describe('storeStore basic', function(){
     });
 
     it('custom ', function(done){
-        let store = new MongoDBStore({useBlueBird: true});
-        store.has(key)
+        store2.ready()
+            .then(()=>store.set(key)) // set it in store will not impact store2
+            .then(()=>store2.has(key))
             .then((val)=>{
+                console.log('Val is : ' + val);
                 val=!!val;
                 val.should.equal(false);
-                return store.set(key, '123');
+                return store2.set(key, '123');
             })
-            .then(()=>store.has(key))
+            .then(()=>store2.has(key))
             .then((val)=>{
                 val=!!val;
                 val.should.equal(true);
             })
-            .then(()=>store.get(key))
+            .then(()=>store2.get(key))
             .then(val=>{
                 val.should.equal('123');
-                return store.delete(key);
+                return store2.delete(key);
             })
             .then(()=>{
                 done();
@@ -77,3 +84,4 @@ describe('storeStore basic', function(){
 
     });
 });
+

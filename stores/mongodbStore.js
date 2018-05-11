@@ -7,7 +7,7 @@ const {promisify} = require('util');
 
 class MongoDBStore {
     constructor(options){
-        const url = (options ||{}).url || 'mongodb://localhost:27017';
+        const url = (options ||{}).url || 'mongodb://localhost:27017/redKV';
         const collectionName= (options||{}).collection || 'redKV';
         this.keyField = (options ||{}).keyField || 'redK';
         this.valueField = (options ||{}).valueField || 'redV';
@@ -49,8 +49,11 @@ class MongoDBStore {
     }
 
     has(key){
+        console.log('Calling has');
         return this.get(key)
-            .then(obj=>obj!==null);
+            .then(obj=>{
+                return obj!==null;
+            });
     }
 
 };

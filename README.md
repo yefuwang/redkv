@@ -165,7 +165,7 @@ kvStore.addStore('mongodb', options);
 `options` is an object. All fields are optional. Supported fields include `url`, `collection`, `keyField`, `valueField`. 
 
 ### `url`
-The url to the MongoDB instance. If not provided, a default value of `'mongodb://localhost:27017'` is assumed. 
+The url to the MongoDB instance. If not provided, a default value of `'mongodb://localhost:27017/redKV'` is assumed. 
 
 ### `collection`
 
