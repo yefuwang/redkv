@@ -35,6 +35,12 @@ describe('storeStore basic', function(){
             .then(()=>store.get(key))
             .then(val=>{
                 val.should.equal('123');
+                // set the same key and see what happens
+                return store.set(key, 'abc');
+            })
+            .then(()=>store.get(key))
+            .then(val=>{
+                val.should.equal('abc');
                 return store.delete(key);
             })
             .then(()=>{
@@ -44,8 +50,8 @@ describe('storeStore basic', function(){
         ;
 
     });
-   /* 
-    it('get/set/has with bluebird', function(done){
+
+    it('custom ', function(done){
         let store = new MongoDBStore({useBlueBird: true});
         store.has(key)
             .then((val)=>{
@@ -70,5 +76,4 @@ describe('storeStore basic', function(){
         ;
 
     });
-    */
 });

@@ -25,10 +25,11 @@ class MongoDBStore {
     static available(){ return true;}
 
     set(key, value) {
-        return this._collection.insert({
-            [this.keyField] : key,
-            [this.valueField] : value
-        });
+        return this._collection.updateOne(
+            {[this.keyField] : key},
+            {$set: {[this.keyField] : key, [this.valueField] : value}},
+            { upsert: true}
+        );
     }
 
     get(key) {
