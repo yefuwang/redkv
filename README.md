@@ -54,13 +54,13 @@ The API `.get(key)` will first try to read from the redis store. If succeeds, it
 
 Redkv supports the following APIs. Except for the constructor, all APIs returns Promises. 
 
-## constructor
+## `constructor`
 
 ```Javascript
 let kvStore = new RedKV();
 ```
 
-## .addStore
+## `.addStore`
 
 The addStore API adds a new store to redkv. 
 ```javascript
@@ -70,7 +70,7 @@ kvStore.addStore(storeName, options)
 ```
 where `storeName` is a string name of the store, which can be `redis` or `dynamodb` at this time. The parameter `options` are the options passed to the individual stores. Please refer to the section of the individual stores for details. 
 
-## .get:
+## `.get:`
 
 The `get` API reads the value from the stores based on the key
 
@@ -87,7 +87,7 @@ The stores are managed as as sequential list in the same order it is added into 
 
 If none of the sores contains the key, the `get` API returns a `Promise` which will eventually resolve to `null`.
 
-## set:
+## `set:`
 
 The `set` API writes the key-value pair to all the 
 
@@ -100,7 +100,7 @@ Both the key and the value should be strings.
 
 The `set` API returns a promise which will resolve when all the stores sets the key-value pair succesfully, or rejects when one of the stores fails. 
 
-## delete
+## `.delete:`
 The delete API deletes a key from all the stores. 
 ```javascript
 let kvStore = new RedKV();
@@ -110,7 +110,7 @@ kvStore.delete(key)
 
 The `delete` API returns a `Promise` which resolves when all the stores finish deleting the key, or rejects when any sore fails to delete the key. 
 
-## has
+## `.has:`
 The has API returns a `Promise` that will resolve to a boolean value indicating if the key exists in one of the stores
 ```javascript
 let kvStore = new RedKV();
