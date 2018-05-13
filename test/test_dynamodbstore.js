@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 require('dotenv').config();
 
@@ -57,14 +57,12 @@ describe('dynamodbStore basic', function(){
             })
             .then(()=>dynamodb.get(keyNotExist))
             .then(val=>{
-                should.equal(val, null)
+                should.equal(val, null);
             })
             .then(()=>{
                 done();
             })
-            .catch(err=>console.log(err))
-        ;
-
+            .catch(err=>console.log(err));
     });
 
     it('throws when options not given', function(){
