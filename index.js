@@ -79,8 +79,10 @@ class RedKV {
     }
 
     has(key) {
+        if(key === null || key === undefined){
+            return Promise.resolve(false);
+        }
         if(this._stores.length===0) {
-            console.log('No store configured');
             return Promise.resolve(false);
         }
 

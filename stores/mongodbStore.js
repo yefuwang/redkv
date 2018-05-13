@@ -49,7 +49,6 @@ class MongoDBStore {
     }
 
     has(key){
-        console.log('Calling has');
         return this.get(key)
             .then(obj=>{
                 return obj!==null;
