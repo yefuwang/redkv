@@ -18,7 +18,18 @@ const singleStoreTests = [
         tableName:  'dev.calculator',
         attributeName: Math.random().toString(36)
     }},
-    {storeName: 'mongodb', options:{collection:'StrangeCollection3'}}
+    {storeName: 'mongodb', options:{collection:'StrangeCollection3'}},
+    {storeName: 'mysql', options:{
+        // CREATE TABLE redkv (redk VARCHAR(256), redv TEXT, UNIQUE(redk));
+        connectionLimit : 10,
+        host : '127.0.0.1',
+        user : 'redtester',
+        password: 'redtesterpwd',
+        database: 'redkv_test', 
+        tableName: 'redkv',
+        keyColumn: 'redk',
+        valueColumn: 'redv'
+    }}
 ];
 
 const singleTestBuilder = function(conf){
@@ -41,8 +52,8 @@ const doubleTestBuilder = function(conf1, conf2){
         .then(()=>console.log('<<<<DoubleTesting ' +  testName));
 };
 
-describe('kvstore  tests', function(){
-    this.timeout(500000);
+describe('kvstore tests', function(){
+    this.timeout(5000000);
 
     it('run all single tests', function(){
         return  singleStoreTests.reduce(
@@ -55,7 +66,7 @@ describe('kvstore  tests', function(){
     it('double tests', function(){
         // we will reuse the test definitions for single tests 
         // Pairs of indexes in array singleStoreTests
-        let testPairs = [[1,0],[1,2],[0,2],[1,3],[2,3]];
+        let testPairs = [[1,0],[1,2],[0,2],[1,3],[2,3],[0,4],[1,4]];
         return testPairs.reduce(
             (accu, curr)=>accu.then(()=>
                 doubleTestBuilder(

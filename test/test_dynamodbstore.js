@@ -7,7 +7,7 @@ const chai = require('chai');
 const should = chai.should();
 
 describe('dynamodbStore basic', function(){
-    this.timeout(100000);
+    this.timeout(1000000);
     let conf={
         region: "us-east-1",
         endpoint: process.env.DDB_ENDPOINT || "https://dynamodb.us-east-1.amazonaws.com",
