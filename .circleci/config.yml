@@ -23,10 +23,16 @@ jobs:
             - v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
             - v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
       - run:
-          name: Install dependencies
+          name: Install dependencies 
           command: npm install
       - run:
-          name: Test
+          name: Install mysql client
+          command: sudo apt-get update && sudo apt-get install mysql-client -y
+      - run:
+          name: Prepare Mysql
+          command: mysql -h 127.0.0.1 -u redtester -predtesterpwd -e "use redkv_test; CREATE TABLE redkv (redk VARCHAR(256), redv TEXT, UNIQUE(redk));"  
+      - run:
+          name: Test with code coverage captured
           command: npm run cover
       - save_cache:
           key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-lock-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
@@ -55,6 +61,12 @@ jobs:
           name: Install dependencies
           command: npm install
       - run:
+          name: Install mysql client
+          command: sudo apt-get update && sudo apt-get install mysql-client -y
+      - run:
+          name: Prepare Mysql
+          command: mysql -h 127.0.0.1 -u redtester -predtesterpwd -e "use redkv_test; CREATE TABLE redkv (redk VARCHAR(256), redv TEXT, UNIQUE(redk));"  
+      - run:
           name: Test
           command: npm test
       - save_cache:
@@ -69,21 +81,21 @@ jobs:
   node-v6:
     <<: *nocover
     docker:
-      - image: node:6
+      - image: circleci/node:6
       - image: redis:4
       - image: circleci/mongo:3
       - image: reboot8/redkvmysql
   node-v8:
     <<: *nocover
     docker:
-      - image: node:8
+      - image: circleci/node:8
       - image: redis:4
       - image: circleci/mongo:3
       - image: reboot8/redkvmysql
   node-v10:
     <<: *node-base
     docker:
-      - image: node:10
+      - image: circleci/node:10
       - image: redis:4
       - image: circleci/mongo:3
       - image: reboot8/redkvmysql
