@@ -4,14 +4,19 @@ const tryRequire = require('try-require');
 const mysql = require('mysql');
 var {promisify} = require('util');
 
-if(!promisify) {
-    const BlueBird = require('bluebird');
-    promisify = BlueBird.promisify;
-}
-
 class MySQLStore {
     constructor(options){
         options = JSON.parse(JSON.stringify(options));
+
+        if((!promisify) ||
+            (options &&
+                (options.useBluebird || options.useBlueBird ))) {
+            const BlueBird = require('bluebird');
+            promisify = BlueBird.promisify;
+            delete options.useBlueBird;
+            delete options.useBluebird;
+        }
+
         if(!options) {
             throw new Error('Parameters are required to create MysqlStore' +
            '. See the parameters passeed to mysql.createPool in mysql document');
@@ -41,7 +46,6 @@ class MySQLStore {
 
     ready() {
         return Promise.resolve(true);
-        return this._readyPromise; 
     }
     static available(){ return true;}
 

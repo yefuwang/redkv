@@ -3,11 +3,15 @@
 const chai = require('chai');
 const should = chai.should();
 
+var randomString = function(){
+    return  Math.random().toString(36).substring(7);
+};
+
 var testOneStore = function(store, key, value1, value2){
-    key = key || 'testKey';
-    value1 = value1 || '123';
-    value2 = value2 || 'abc';
-    let keyNotExist = 'keyDoNotExist';
+    key = key || randomString();
+    value1 = value1 || randomString();
+    value2 = value2 || randomString();
+    let keyNotExist = randomString();
 
     return store.ready()
         .then(()=>store.delete(key))
@@ -52,8 +56,8 @@ var testOneStore = function(store, key, value1, value2){
 };
 
 var testTwoStores = function(store, subStore1, subStore2){
-    let key = 'testKey';
-    let value1 = 'dfg';
+    let key = randomString();
+    let value1 = randomString();
     return testOneStore(store)
         .then(()=>store.has(key))
         .then(val=>{
