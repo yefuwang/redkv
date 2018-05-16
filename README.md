@@ -1,24 +1,29 @@
 [![CircleCI](https://circleci.com/gh/yefuwang/redkv/tree/dev.svg?style=svg)](https://circleci.com/gh/yefuwang/redkv/tree/master)  [![Coverage Status](https://coveralls.io/repos/github/yefuwang/redkv/badge.svg?branch=master)](https://coveralls.io/github/yefuwang/redkv?branch=dev) [![bitHound Overall Score](https://www.bithound.io/github/yefuwang/redkv/badges/score.svg)](https://www.bithound.io/github/yefuwang/redkv)
 
-Redkv is a key-value store front end that can connect multiple key-value stores together as a list. A store appears earlier in the list works as a cache to the store later in the list. 
+Redkv is a key-value store interface which:
 
-The reading and writing behaves as if it is a caching system. When writing to redkv, the key-value pair gets writtes to all key-value stores. When reading from it, readkv reads sequentially reads from the list of key-value stores until it find the key. After suceeded, it fills the failed stores in front of it. 
+1. Provides a uniform interface for a variety of SQL or NO-SQL databases
+2. Connects multiple databases together as a list. A database appears earlier in the list works as a cache to the database later in the list.
 
-RedKV supports the following databases as its backend: 
+If multiple databases are configured, the reading and writing behave as if it is a caching system. When writing to RedKV, the key-value pair gets to write to all databases. When reading from it, RedKV reads sequentially reads from the list of databases until it finds the key. After succeeding, if there databases in the list in the front failed to find the key, RedKV fills the databases with the key/value pair, just like filling a cache.
+
+RedKV currently supports the following databases as its backend:
 
 * [Redis](#redisstore)
-* [Dynamodb](#dynamodbstore)
+* [DynamoDB](#dynamodbstore)
 * [MongoDB](#mongodbstore)
+* [MySQL](#mysqlstore)
+* [PostgreSQL](#postgresstore)
 # Example
 
-Let's create a redkv with a redis store at the front and a dynamodb store at the back end:
+Let's create a RedKV with a Redis store at the front and a DynamoDB store at the back end:
 
 ```javascript
 let kvStore = new RedKV();
 kvStore.addStore('redis');
 kvStore.addStore('dynamodb', {
         region: "us-east-1",
-        endpoint: "https://dynamodb.us-east-1.amazonaws.com",
+        endpoint: "https://DynamoDB.us-east-1.amazonaws.com",
         httpOptions: {
             timeout:3000
         },
@@ -38,7 +43,7 @@ Now we can add key-value pairs to it:
 
 ```javascript
 kvStore.set('mykey', 'my string value');
-// Set function returns a promise which resolves when all the stores finish setting the key, which in this case are redis and dynamodb. 
+// Set function returns a promise which resolves when all the stores finish setting the key, which in this case are redis and DynamoDB. 
 ```
 We can also read from redkv using `.get(key)`
 
@@ -48,11 +53,11 @@ kvStore.get('mykey')
         // value should equal 'my string value'
     })
 ```
-The API `.get(key)` will first try to read from the redis store. If succeeds, it resolve to the value found. If fails or the key does not exist in redis, it loads it from dynamodb, writes it back to redis, and returns a promise that resolves to the value found. 
+The API `.get(key)` will first try to read from the redis store. If succeeds, it resolves to the value found. If fails or the key does not exist in redis, it loads it from DynamoDB, writes it back to redis, and returns a promise that resolves to the value found. 
 
 # APIs
 
-Redkv supports the following APIs. Except for the constructor, all APIs returns Promises. 
+RedKV supports the following APIs. Except for the constructor, all APIs returns Promises. 
 
 ## `constructor`
 
@@ -60,58 +65,59 @@ Redkv supports the following APIs. Except for the constructor, all APIs returns 
 let kvStore = new RedKV();
 ```
 
-## `.addStore`
+## `.addStore(storeName, option) => store`
 
-The addStore API adds a new store to redkv. 
+The addStore API adds a new database (store) to redkv. 
 ```javascript
 let kvStore = new RedKV();
 //...
 kvStore.addStore(storeName, options)
 ```
-where `storeName` is a string name of the store, which can be `redis` or `dynamodb` at this time. The parameter `options` are the options passed to the individual stores. Please refer to the section of the individual stores for details. 
+where `storeName` is a string name of the store, which can be one of the supported databases:`redis`, `DynamoDB`, `mongodb`, `mysq`, and `postgres`. Names of the databases are case-insensitive. The parameter `options` are the options passed to the individual stores. Please refer to the section of the individual databases (stores) for details. 
 
-## `.get:`
+The `.addStore` API returns a store object that has the same API as the RedKV object itself, but points to only this store instead of a list of stores. 
 
-The `get` API reads the value from the stores based on the key
+## `.get(key) => Promise`
+
+The `get` API reads the value from the stores based on the key.
 
 ```javascript
 let kvStore = new RedKV();
 //...
 kvStore.get(key)
 ```
-The key is expected to be a string. 
+The key should be a string. 
 
-When there are multiple stores in redkv, the `get` API tries to get the key from the stores sequentially, until it finds the key in a store and gets it value. After that, it fills the key-value pair to all the stores before the store it succeeds. 
+When there are multiple stores in RedKV, the `get` API tries to get the key from the stores sequentially, until it finds the key in a store `S1` and gets it value. After that, it fills the key-value pair to the stores before store `S1`. If none of the stores contains the key, the `get` API returns a `Promise` which will eventually resolve to `null`.
 
-The stores are managed as as sequential list in the same order it is added into redkv. 
+The stores are managed as a sequential list in the same order it is added into RedKV. 
 
-If none of the sores contains the key, the `get` API returns a `Promise` which will eventually resolve to `null`.
+For example, if a RedKV instance contains two stores with the `.addStore` API: a instance of Redos and a DynamoDB. When the `.get` API is called with a key, RedKV tries to find the key from Redis. If Redis contains the key, the `.get` API will return a promise that will eventually resolve to the value in Redis. If Redis does not have the key, RedKV will try to get the value from DynamoDB, fill the value into Redis, and return a Promise that resolves to the value. If neith Redis nor DynamoDB has the key, the `.get` API will return a Promise that resolves to `null`. 
 
-## `set:`
+## `.set(key, value) => Promise`
 
-The `set` API writes the key-value pair to all the 
+The `set` API writes the key-value pair to all stores in the RedKV instance. Both the key and the value should be strings. 
 
 ```javascript
 let kvStore = new RedKV();
 //...
 kvStore.set(key, value)
 ```
-Both the key and the value should be strings. 
 
-The `set` API returns a promise which will resolve when all the stores sets the key-value pair succesfully, or rejects when one of the stores fails. 
+The `set` API returns a `Promise` which will resolve when all the stores set the key-value pair successfully or reject when one of the stores fails. 
 
-## `.delete:`
-The delete API deletes a key from all the stores. 
+## `.delete(key) => Promise`
+The delete API deletes a key from all the stores. The `delete` API returns a `Promise` which resolves when all the stores finish deleting the key or rejects when any store fails to delete the key. 
+
 ```javascript
 let kvStore = new RedKV();
 //...
 kvStore.delete(key)
 ```
 
-The `delete` API returns a `Promise` which resolves when all the stores finish deleting the key, or rejects when any sore fails to delete the key. 
 
-## `.has:`
-The has API returns a `Promise` that will resolve to a boolean value indicating if the key exists in one of the stores
+## `.has(key) => Promise`
+The has API returns a `Promise` that will resolve to a boolean value indicating if the key exists in one of the stores.
 ```javascript
 let kvStore = new RedKV();
 //...
@@ -124,38 +130,38 @@ kvStore.delete(key)
 
 # Stores
 
-##  <a name="redisstore"></a>redis
-The redis store and be added to a redkv using `'redis'` as the parameter passed to the `addStore` API:
+##  <a name="redisstore"></a>Redis
+The Redis store can be added to a RedKV instance using `'redis'` as the parameter passed to the `addStore` API:
 
 ```javascript
 let kvStore = new RedKV();
 kvStore.addStore('redis', options);
 ```
 
-The `options` object will be passed to [node_redis module](https://github.com/NodeRedis/node_redis). Please refer to redis document for details. 
+The `options` object will be passed to [node_redis module](https://github.com/NodeRedis/node_redis). Please refer to node_redis document for details. 
 
-## <a name="dynamodbstore"></a>dynamodb
-The dynamodb store and be added to a redkv using `'dynamodb'` as the parameter passed to the `addStore` API:
+## <a name="dynamodbstore"></a>Amazon DynamoDB
+The DynamoDB store and be added to a RedKV using `'DynamoDB'` as the parameter passed to the `addStore` API:
 
 ```javascript
 let kvStore = new RedKV();
 kvStore.addStore('dynamodb', options);
 ```
-The `options` object will be passed to [dynamodb document client](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html). Please refer to dynamodb document client for details. 
+The `options` object will be passed to [DynamoDB document client](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html). Please refer to DynamoDB document client for details. 
 
-In additional to the fields passed to dynamodb document client, the `options` object may contains the following additional fields:
+In addition to the fields passed to DynamoDB document client, the `options` object may contain the following additional fields:
 
 ### `tableName`
-The `tableName` is your dynamodb table name. This field is required. 
+The `tableName` is your DynamoDB table name. This field is required. 
 
 ### `attributeName`
 
-Optional. If attributeName is set, redkv stores the value in an attribute with the name indicated by the `attributeName` field. If it is not set, it defaults to `'v'`.
+Optional. If attributeName is set, RedKV stores the value in an attribute with the name indicated by the `attributeName` field. If it is not set, it defaults to `'v'`.
 
-The dynamodb table should contains only one hash key, and no partitional keys. 
+The DynamoDB table should contain only one hash key and no partitional keys. 
 
 ## <a name="mongodbstore"></a>MongoDB
-The MongoDB store and be added to a redkv using `'mongodb'` as the parameter passed to the `addStore` API:
+The MongoDB store can be added to a RedKV using `'mongodb'` as the parameter passed to the `addStore` API:
 
 ```javascript
 let kvStore = new RedKV();
@@ -165,27 +171,104 @@ kvStore.addStore('mongodb', options);
 `options` is an object. All fields are optional. Supported fields include `url`, `collection`, `keyField`, `valueField`. 
 
 ### `url`
-The url to the MongoDB instance. If not provided, a default value of `'mongodb://localhost:27017/redKV'` is assumed. 
+The URL to the MongoDB instance. If not provided, a default value of `'mongodb://localhost:27017/redKV'` is assumed. 
 
 ### `collection`
 
 The collection of MongoDB where the data will be stored. 
 ### `keyField`
 
-The field in the collection which will be used to store keys. This field will be used to create an unique index. If ommited, it will default to `'redK'`. 
+The field in the collection which will be used to store keys. This field will be used to create a unique index. If omitted, it will default to `'redK'`. 
 
 ### `valueField`
 
-The field in the collection which will be used to store values.  If ommited, it will default to `'redV'`. 
+The field in the collection which will be used to store values.  If omitted, it will default to `'redV'`. 
+
 
 ## <a name="mysqlstore"></a>MySQL
 
-The MySQL store uses a table in a MySQL database for storing key value pairs. 
+The MySQL store uses a table in a MySQL database for storing key-value pairs. 
+
+Before using, you are responsible for creating the table in your database. An example is:
+
+```SQL
+CREATE TABLE redkv (redk VARCHAR(256), redv TEXT, UNIQUE(redk));
+```
+In this example, the table name is `redkv`. A column named `redk` is created with unique restrictions for storing the keys. A column named `redv` is created to store the values. You are of course free to adjust these names. However, the column needs to store the key needs to have UNIQUE restrictions. 
+
+The configuration options need to be passed to the `.addStore` method of `RedKV`. The options including the name of the table, the column which will be used to store the key, and the column which will be used to store the values, and other parameters that are used to connect to the MySQL server,  Example:
 ```javascript
 let kvStore = new RedKV();
-let options={url:'mongodb://localhost:27017'};
+let options = {
+    //Parameters used by mysqljs
+    connectionLimit : 10,
+    host : '127.0.0.1',
+    user : 'redtester',
+    password: 'redtesterpwd',
+    database: 'redkv_test', 
+    //parameters used by RedKV to create the store
+    tableName: 'redkv',
+    keyColumn: 'redk',
+    valueColumn: 'redv'
+};
 kvStore.addStore('mysql', options);
 ```
+The MySQL store of RedKV uses three additional parameters on top of the other parameters supported by [mysqljs](https://github.com/mysqljs/mysql#pooling-connections): They are:
+
+### `tableName`
+
+Name of the table in the database to store the key-value pairs.
+
+### `keyColumn`
+
+Name of the column which will be used to store keys. 
+
+### `valueColumn`
+
+Name of the column which will be used to store values. 
+
+## <a name="postgrestore"></a>PostgreSQL
+
+The PostgreSQL store uses a table in a PostgreSQL database for storing key-value pairs. 
+
+Before using, you are responsible of creating the table in your database. An example is:
+
+```SQL
+CREATE TABLE redkv (redk VARCHAR(256), redv TEXT, UNIQUE(redk));
+```
+In this example, the table name is `redkv`. A column named `redk` is created with unique restrictions for storing the keys. A column named `redv` is created to store the values. You are of course free to adjust these names. However, the column needs to store the key needs to have UNIQUE restrictions. 
+
+The configuration options need to be passed to the .addStore method of RedKV. The options including the name of the table, the column which will be used to store the key, and the column which will be used to store the values, and other parameters that are used to connect to the PostgreSQL server, Example:
+```javascript
+let kvStore = new RedKV();
+let options = {
+    //Parameters used by node-postgres
+    host : '127.0.0.1',
+    user : 'redkvtester',
+    password: 'redtesterpwd',
+    database: 'redkv_test', 
+    //parameters used by RedKV to create the store
+    tableName: 'redkv',
+    keyColumn: 'redk',
+    valueColumn: 'redv'
+};
+kvStore.addStore('postgres', options);
+```
+The PostgreSQL store of RedKV uses three additional parameters on top of the other parameters supported by [node-postgres](https://node-postgres.com/features/connecting#programmatic): They are:
+
+### `tableName`
+
+Name of the table in the database to store the key-value pairs.
+
+### `keyColumn`
+
+Name of the column which will be used to store keys. 
+
+### `valueColumn`
+
+Name of the column which will be used to store values. 
+
+
 
 # License
 
