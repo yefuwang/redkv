@@ -1,1 +1,5 @@
 theme: jekyll-theme-slate
+title: RedKV
+description: A uniform key-value interface for one or more SQL or NoSQL databases
+
+
