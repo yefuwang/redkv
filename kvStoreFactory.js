@@ -4,6 +4,7 @@ const RedisStore = require('./stores/redisStore');
 const DynamodbStore = require('./stores/dynamodbStore');
 const MongoDBStore =  require('./stores/mongodbStore');
 const MySQLStore = require('./stores/mySQLStore');
+const PostgresStore = require('./stores/postgresStore');
 
 module.exports = function (storeName, options) {
     let store = null;
@@ -26,6 +27,12 @@ module.exports = function (storeName, options) {
         case 'MYSQL':
             if(MySQLStore.available()) {
                 store = new MySQLStore(options);
+            }
+            break;
+        case 'POSTGRES':
+        case 'POSTGRESQL':
+            if (PostgresStore.available())   {
+                store = new PostgresStore(options); 
             }
             break;
         default:

@@ -6,10 +6,11 @@ const chai = require('chai');
 const should = chai.should();
 const testStore = require('./test_store');
 
+//List of stores to test
 const singleStoreTests = [
-    {storeName: 'mongodb'}, 
-    {storeName: 'redis'}, 
-    {storeName: 'dynamodb', options:{
+    {storeName: 'mongodb'}, // #0 
+    {storeName: 'redis'},   // #1
+    {storeName: 'dynamodb', options: { // #2
         region: "us-east-1",
         endpoint: process.env.DDB_ENDPOINT || "https://dynamodb.us-east-1.amazonaws.com",
         httpOptions: {
@@ -18,8 +19,8 @@ const singleStoreTests = [
         tableName:  'dev.calculator',
         attributeName: Math.random().toString(36)
     }},
-    {storeName: 'mongodb', options:{collection:'StrangeCollection3'}},
-    {storeName: 'mysql', options:{
+    {storeName: 'mongodb', options: {collection:'StrangeCollection3'}}, // #3
+    {storeName: 'mysql', options: {    //#4
         // CREATE TABLE redkv (redk VARCHAR(256), redv TEXT, UNIQUE(redk));
         connectionLimit : 10,
         host : '127.0.0.1',
@@ -29,7 +30,16 @@ const singleStoreTests = [
         tableName: 'redkv',
         keyColumn: 'redk',
         valueColumn: 'redv'
-    }}
+    }},
+    {storeName: 'postgres', options: { // #5
+        host : '127.0.0.1',
+        user : 'redkvtester',
+        password: 'redtesterpwd',
+        database: 'redkv_test', 
+        tableName: 'redkv',
+        keyColumn: 'redk',
+        valueColumn: 'redv'
+    }}   
 ];
 
 const singleTestBuilder = function(conf){
@@ -66,7 +76,8 @@ describe('kvstore tests', function(){
     it('double tests', function(){
         // we will reuse the test definitions for single tests 
         // Pairs of indexes in array singleStoreTests
-        let testPairs = [[1,0],[1,2],[0,2],[1,3],[2,3],[0,4],[1,4]];
+        let testPairs = [[1,0],[1,2],[0,2],[1,3],[2,3],[0,4],[1,4],
+            [1,5], [3,5], [5, 3]];
         return testPairs.reduce(
             (accu, curr)=>accu.then(()=>
                 doubleTestBuilder(

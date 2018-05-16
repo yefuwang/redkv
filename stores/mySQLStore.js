@@ -6,7 +6,13 @@ var {promisify} = require('util');
 
 class MySQLStore {
     constructor(options){
-        options = JSON.parse(JSON.stringify(options));
+        if(options) {
+            options = JSON.parse(JSON.stringify(options));
+        }
+        else {
+            throw new Error('Parameters are required to create MysqlStore' +
+          '. See the parameters passeed to mysql.createPool in mysql document');
+        }
 
         if((!promisify) ||
             (options &&
@@ -15,11 +21,6 @@ class MySQLStore {
             promisify = BlueBird.promisify;
             delete options.useBlueBird;
             delete options.useBluebird;
-        }
-
-        if(!options) {
-            throw new Error('Parameters are required to create MysqlStore' +
-           '. See the parameters passeed to mysql.createPool in mysql document');
         }
 
         if(!options.tableName) {

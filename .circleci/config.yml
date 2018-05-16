@@ -85,6 +85,7 @@ jobs:
       - image: redis:4
       - image: circleci/mongo:3
       - image: reboot8/redkvmysql
+      - image: reboot8/redkvpostgres
   node-v8:
     <<: *nocover
     docker:
@@ -92,6 +93,7 @@ jobs:
       - image: redis:4
       - image: circleci/mongo:3
       - image: reboot8/redkvmysql
+      - image: reboot8/redkvpostgres
   node-v10:
     <<: *node-base
     docker:
@@ -99,4 +101,5 @@ jobs:
       - image: redis:4
       - image: circleci/mongo:3
       - image: reboot8/redkvmysql
+      - image: reboot8/redkvpostgres
 
