@@ -1,6 +1,6 @@
 [![CircleCI](https://circleci.com/gh/yefuwang/redkv/tree/dev.svg?style=svg)](https://circleci.com/gh/yefuwang/redkv/tree/master)  [![Coverage Status](https://coveralls.io/repos/github/yefuwang/redkv/badge.svg?branch=master)](https://coveralls.io/github/yefuwang/redkv?branch=dev) [![bitHound Overall Score](https://www.bithound.io/github/yefuwang/redkv/badges/score.svg)](https://www.bithound.io/github/yefuwang/redkv)
 
-Redkv is a key-value store interface which:
+RedKV is a key-value store interface for node.js which:
 
 1. Provides a uniform interface for a variety of SQL or NO-SQL databases
 2. Connects multiple databases together as a list. A database appears earlier in the list works as a cache to the database later in the list.
@@ -14,6 +14,9 @@ RedKV currently supports the following databases as its backend:
 * [MongoDB](#mongodbstore)
 * [MySQL](#mysqlstore)
 * [PostgreSQL](#postgresstore)
+
+RedKV supports node.js version 6 and above. 
+
 # Example
 
 Let's create a RedKV with a Redis store at the front and a DynamoDB store at the back end:
