@@ -177,6 +177,16 @@ The field in the collection which will be used to store keys. This field will be
 ### `valueField`
 
 The field in the collection which will be used to store values.  If ommited, it will default to `'redV'`. 
+
+## <a name="mysqlstore"></a>MySQL
+
+The MySQL store uses a table in a MySQL database for storing key value pairs. 
+```javascript
+let kvStore = new RedKV();
+let options={url:'mongodb://localhost:27017'};
+kvStore.addStore('mysql', options);
+```
+
 # License
 
 RedKV is released under MIT license. 
