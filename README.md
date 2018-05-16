@@ -2,10 +2,10 @@
 
 RedKV is a key-value store interface for node.js which:
 
-1. Provides a uniform interface for a variety of SQL or NO-SQL databases
-2. Connects multiple databases together as a list. A database appears earlier in the list works as a cache to the database later in the list.
+1. Provides a uniform key-value interface for a variety of SQL or NO-SQL databases
+2. Connects to multiple databases possibly with different types
 
-If multiple databases are configured, the reading and writing behave as if it is a caching system. When writing to RedKV, the key-value pair gets to write to all databases. When reading from it, RedKV reads sequentially reads from the list of databases until it finds the key. After succeeding, if there databases in the list in the front failed to find the key, RedKV fills the databases with the key/value pair, just like filling a cache.
+If multiple databases are configured, the reading and writing behave as if it is a caching system. When writing to RedKV, the key-value pair gets to write to all databases. When getting a key, RedKV sequentially tries a database from the front of the list, moves on to the next database if the key was not found, and stops until the key is found in a database. After that, the key-value pair is filled to all the databases in front of the list, up to the database where the key is actually found, just like filling a cache.
 
 RedKV currently supports the following databases as its backend:
 
