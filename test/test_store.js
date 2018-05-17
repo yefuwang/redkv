@@ -2,6 +2,8 @@
 
 const chai = require('chai');
 const should = chai.should();
+const chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
 
 var randomString = function(){
     return  Math.random().toString(36).substring(7);
@@ -35,8 +37,32 @@ var testOneStore = function(store, key, value1, value2){
         .then(()=>store.get(key))
         .then(val=>{
             val.should.equal(value2);
-            return store.delete(key);
         })
+        .then(()=>store.set(key, 0)) // number
+        .then(()=>store.get(key))
+        .then(val=>val.should.equal('0')) // gets a string
+        .then(()=>store.set(key, 100)) // number
+        .then(()=>store.get(key))
+        .then(val=>val.should.equal('100')) // gets a string
+        .then(()=>store.set(key, {}).should.be.rejected)
+        .then(()=>store.set(key, {a:1}).should.be.rejected)
+        .then(()=>store.set(key, []).should.be.rejected)
+        .then(()=>store.set(key, undefined).should.be.rejected)
+        .then(()=>store.set(key).should.be.rejected)
+        .then(()=>store.set(key, null).should.be.rejected)
+        .then(()=>store.get(undefined).should.be.rejected)
+        .then(()=>store.get(null).should.be.rejected)
+        .then(()=>store.get({}).should.be.rejected)
+        .then(()=>store.get({a:1}).should.be.rejected)
+        .then(()=>store.has(undefined).should.be.rejected)
+        .then(()=>store.has(null).should.be.rejected)
+        .then(()=>store.has({}).should.be.rejected)
+        .then(()=>store.has({a:1}).should.be.rejected)
+        .then(()=>store.delete(undefined).should.be.rejected)
+        .then(()=>store.delete(null).should.be.rejected)
+        .then(()=>store.delete({}).should.be.rejected)
+        .then(()=>store.delete({a:1}).should.be.rejected)
+        .then(()=>store.delete(key))
         .then(()=>store.get(key))
         .then(valnull=>{
             should.equal(valnull, null);

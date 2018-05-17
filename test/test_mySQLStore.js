@@ -4,6 +4,7 @@ const MySQLStore =  require('../stores/mySQLStore');
 const chai = require('chai');
 const should = chai.should();
 const testStore = require('./test_store');
+const InputFilter = require('../storeInputFilter');
 
 describe('MySQL Store Exception Handling', function(){
     it('Exceptions', function(){
@@ -33,6 +34,6 @@ describe('MySQL Store Exception Handling', function(){
             valueColumn: 'redv'
         } );
 
-        return testStore.testOneStore(mysql);
+        return testStore.testOneStore(new InputFilter(mysql));
     });
 });

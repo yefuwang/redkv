@@ -5,6 +5,7 @@ const DynamodbStore = require('./stores/dynamodbStore');
 const MongoDBStore =  require('./stores/mongodbStore');
 const MySQLStore = require('./stores/mySQLStore');
 const PostgresStore = require('./stores/postgresStore');
+const InputFilter = require('./storeInputFilter');
 
 module.exports = function (storeName, options) {
     let store = null;
@@ -41,6 +42,6 @@ module.exports = function (storeName, options) {
     if(!store) {
         throw new Error('Store '+storeName + ' is not available');
     }
-    return store;
+    return new InputFilter(store);
 };
 
