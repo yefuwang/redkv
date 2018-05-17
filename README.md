@@ -60,7 +60,7 @@ The API `.get(key)` will first try to read from the redis store. If succeeds, it
 
 # APIs
 
-RedKV supports the following APIs. Except for the constructor, all APIs returns Promises. 
+RedKV supports the following APIs:
 
 ## `constructor`
 
@@ -99,7 +99,7 @@ For example, if a RedKV instance contains two stores with the `.addStore` API: a
 
 ## `.set(key, value) => Promise`
 
-The `set` API writes the key-value pair to all stores in the RedKV instance. Both the key and the value should be strings. 
+The `set` API writes the key-value pair to all stores in the RedKV instance. Both the key and the value are stored as strings. If the key or the value is a number, it will be converted to a string. Other non-string types, such as objects, `undefined`, or `null`, will cause this API to return a promise that rejects. 
 
 ```javascript
 let kvStore = new RedKV();
