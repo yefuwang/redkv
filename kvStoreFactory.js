@@ -6,6 +6,7 @@ const MongoDBStore =  require('./stores/mongodbStore');
 const MySQLStore = require('./stores/mySQLStore');
 const PostgresStore = require('./stores/postgresStore');
 const InputFilter = require('./storeInputFilter');
+const MemoryStore = require('./stores/memoryStore');
 
 module.exports = function (storeName, options) {
     let store = null;
@@ -25,6 +26,9 @@ module.exports = function (storeName, options) {
         case 'POSTGRES':
         case 'POSTGRESQL':
             store = new PostgresStore(options); 
+            break;
+        case 'MEMORY':
+            store = new MemoryStore(options);
             break;
         default:
             break;

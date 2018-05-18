@@ -39,7 +39,8 @@ const singleStoreTests = [
         tableName: 'redkv',
         keyColumn: 'redk',
         valueColumn: 'redv'
-    }}   
+    }},
+    {storeName: 'memory', options:{}} // #6
 ];
 
 const singleTestBuilder = function(conf){
@@ -77,7 +78,7 @@ describe('kvstore tests', function(){
         // we will reuse the test definitions for single tests 
         // Pairs of indexes in array singleStoreTests
         let testPairs = [[1,0],[1,2],[0,2],[1,3],[2,3],[0,4],[1,4],
-            [1,5], [3,5], [5, 3]];
+            [1,5], [3,5], [5, 3], [1, 6], [3, 6], [6, 3] ];
         return testPairs.reduce(
             (accu, curr)=>accu.then(()=>
                 doubleTestBuilder(
