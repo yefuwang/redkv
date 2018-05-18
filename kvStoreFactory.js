@@ -11,30 +11,20 @@ module.exports = function (storeName, options) {
     let store = null;
     switch(storeName.toUpperCase()){
         case 'REDIS':
-            if(RedisStore.available()) {
-                store = new RedisStore(options); 
-            }
+            store = new RedisStore(options); 
             break;
         case 'DYNAMODB':
-            if (DynamodbStore.available()) {
-                store= new DynamodbStore(options);
-            }
+            store= new DynamodbStore(options);
             break;
         case 'MONGODB': 
-            if (MongoDBStore.available()) {
-                store= new MongoDBStore(options);
-            }
+            store= new MongoDBStore(options);
             break;
         case 'MYSQL':
-            if(MySQLStore.available()) {
-                store = new MySQLStore(options);
-            }
+            store = new MySQLStore(options);
             break;
         case 'POSTGRES':
         case 'POSTGRESQL':
-            if (PostgresStore.available())   {
-                store = new PostgresStore(options); 
-            }
+            store = new PostgresStore(options); 
             break;
         default:
             break;

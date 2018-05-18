@@ -48,7 +48,6 @@ class MySQLStore {
     ready() {
         return Promise.resolve(true);
     }
-    static available(){ return true;}
 
     set(key, value) {
         let sql = 'INSERT INTO '+ this._pool.escapeId(this.tableName) +

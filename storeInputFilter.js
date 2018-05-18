@@ -31,6 +31,9 @@ class StoreInputFilter {
     }
 
     get(key) {
+        if (_.isNumber(key)){
+            key = key.toString();
+        }
         if(key===undefined || key===null || !_.isString(key)){
             return Promise.reject(
                 'The key cannot be undefined, null, or non-string type');
@@ -40,6 +43,9 @@ class StoreInputFilter {
 
 
     delete(key) {
+        if (_.isNumber(key)){
+            key = key.toString();
+        }
         if(key===undefined || key===null || !_.isString(key)){
             return Promise.reject(
                 'The key cannot be undefined, null, or non-string type. ');
@@ -48,6 +54,9 @@ class StoreInputFilter {
     }
 
     has(key) {
+        if (_.isNumber(key)){
+            key = key.toString();
+        }
         if(key===undefined || key===null || !_.isString(key)){
             return Promise.reject(
                 'The key cannot be undefined, null, or non-string type');

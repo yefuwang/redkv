@@ -22,7 +22,6 @@ class MongoDBStore {
     ready() {
         return this._readyPromise; 
     }
-    static available(){ return true;}
 
     set(key, value) {
         return this._collection.updateOne(

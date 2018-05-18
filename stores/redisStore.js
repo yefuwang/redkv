@@ -28,10 +28,6 @@ class RedisStore {
         }
     }
 
-    static available() {
-        return !!redis;
-    }
-
     ready () {
         return Promise.resolve();
     }

@@ -52,7 +52,6 @@ class PostgresStore {
     ready() {
         return Promise.resolve(true);
     }
-    static available(){ return true;}
 
     set(key, value) {
         return this._pool.query(this._setSQL, [key,value]);

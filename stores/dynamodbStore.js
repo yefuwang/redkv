@@ -44,10 +44,6 @@ class DynamoDBStore {
         return this._readyHandle; 
     }
 
-    static available() {
-        return !!DynamoDB;
-    }
-
     delete(key){
         let params = {TableName: this.tableName, Key:{}};
         params.Key[this.hashKey] = key;

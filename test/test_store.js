@@ -12,8 +12,10 @@ var randomString = function(){
 var testOneStore = function(store, key, value1, value2){
     key = key || randomString();
     value1 = value1 || randomString();
+    
     value2 = value2 || randomString();
     let keyNotExist = randomString();
+    let numberKey = Math.floor( Math.random()*1000);
 
     return store.ready()
         .then(()=>store.delete(key))
@@ -44,6 +46,13 @@ var testOneStore = function(store, key, value1, value2){
         .then(()=>store.set(key, 100)) // number
         .then(()=>store.get(key))
         .then(val=>val.should.equal('100')) // gets a string
+        .then(()=>store.set(numberKey, 100)) // number
+        .then(()=>store.get(numberKey))
+        .then(val=>val.should.equal('100')) // gets a string
+        .then(()=>store.has(numberKey))
+        .then(val=>val.should.equal(true)) // gets a string
+        .then(()=>store.delete(numberKey))
+        .then(()=>store.has(numberKey).should.eventually.equal(false))
         .then(()=>store.set(key, {}).should.be.rejected)
         .then(()=>store.set(key, {a:1}).should.be.rejected)
         .then(()=>store.set(key, []).should.be.rejected)
