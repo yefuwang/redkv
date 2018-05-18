@@ -17,6 +17,14 @@ RedKV currently supports the following databases as its backend:
 
 RedKV supports node.js version 6 and above. 
 
+# Installation
+
+Install with:
+
+```Bash
+npm i redkv
+```
+
 # Example
 
 Let's create a RedKV with a Redis store at the front and a DynamoDB store at the back end:
