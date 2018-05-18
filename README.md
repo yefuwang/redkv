@@ -82,14 +82,14 @@ The `.addStore` API returns a store object that has the same API as the RedKV ob
 
 ## `.get(key) => Promise`
 
-The `get` API reads the value from the stores based on the key.
+The `.get` API reads the value from the stores based on the key. If the key exists, it returns a promise which will resolve to a string value. Even if you set a number using the `.set` API, the value get the promise returned from the `.get` API will still be a string. See the `.set` API for more details. 
 
 ```javascript
 let kvStore = new RedKV();
 //...
 kvStore.get(key)
 ```
-The key should be a string. 
+The key should be a string. Numbers will be automatically converted to strings, other data types will cause this API to return a `Promise` that rejects. 
 
 When there are multiple stores in RedKV, the `get` API tries to get the key from the stores sequentially, until it finds the key in a store `S1` and gets it value. After that, it fills the key-value pair to the stores before store `S1`. If none of the stores contains the key, the `get` API returns a `Promise` which will eventually resolve to `null`.
 
