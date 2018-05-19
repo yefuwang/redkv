@@ -14,6 +14,7 @@ RedKV currently supports the following databases as its backend:
 * [MongoDB](#mongodbstore)
 * [MySQL](#mysqlstore)
 * [PostgreSQL](#postgresstore)
+* [Memory (everything in RAM)](#memorytore)
 
 RedKV supports node.js version 6 and above. 
 
@@ -279,7 +280,14 @@ Name of the column which will be used to store keys.
 
 Name of the column which will be used to store values. 
 
+## <a name="memorytore"></a>Memory
 
+The memory database uses a simple Map as the backend, therefore everything is stored in memory. 
+
+```javascript
+let kvStore = new RedKV();
+kvStore.addStore('memory', options);
+```
 
 # License
 
