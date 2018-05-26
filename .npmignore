@@ -1,0 +1,9 @@
+.env
+node_modules
+*.swp
+coverage
+docs
+CNAME
+test
+_config.yml
+
