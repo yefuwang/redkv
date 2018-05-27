@@ -55,5 +55,7 @@
     scale: 0.3,
     distance: '0px'
   }, 300);
+  
+  PR.prettyPrint();
 
 })(jQuery); // End of use strict
