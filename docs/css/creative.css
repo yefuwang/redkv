@@ -171,6 +171,7 @@ header.masthead {
   padding-bottom: calc(10rem - 56px);
   background-image: url("../img/header.jpg");
   background-position: center center;
+  align-items: center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
