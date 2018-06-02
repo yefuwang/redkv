@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Yefu Wang">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#5c4e4e">
 
     <title>RedKV: The key-value interface for SQL or NOSQL databases</title>
 
@@ -16,8 +23,12 @@
 
     <!-- Custom fonts for this template -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800|Merriweather:400,300,300italic,400italic,700,700italic,900,900italic|Delius' rel='stylesheet' type='text/css'>
+
+<!--
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Concert+One|Delius" rel="stylesheet">
+-->
 
     <!-- Plugin CSS -->
     <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
@@ -32,7 +43,12 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">RedKV</a>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">
+          <div id="logo-container">
+            <svg id="logo-svg" data-name="t1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 401.95 404.43"><defs><style>.cls-2{fill-rule:evenodd;fill:#b5b5b5}</style></defs><path d="M84.9 62.83c-45 280.84 267 461.86 393.6 279.52C270.6 631.7 28.27 367.9 84.9 62.83z" transform="translate(-76.54 -62.83)" fill-rule="evenodd" fill="#dd0e0e"/><path class="cls-2" d="M275.09 174.21s-45.18-79.36-78-44.1 78 44.1 78 44.1zM295.33 147.67s-7.1-89.55-46.25-70.91 46.25 70.91 46.25 70.91zM350.29 153s63.94-30.3 26.54-48.39S350.29 153 350.29 153zM324.42 141.51s18.37-77.35-9.92-75.07 9.92 75.07 9.92 75.07zM281.66 202.77s-50 76.28-80.56 38.87 80.56-38.87 80.56-38.87zM306.45 224.08s18.1 102.42-31.1 93 31.1-93 31.1-93zM367.31 175.29s40.22-58.18 52-18.23-52 18.23-52 18.23zM337.82 224.75s59.92 99.06 19.71 108.45-19.71-108.45-19.71-108.45zM366.38 219.66s49.06 77.21 69.84 52.68-69.84-52.68-69.84-52.68zM376.43 196.6s53.35 47.72 65.69 15.55-65.69-15.55-65.69-15.55z" transform="translate(-76.54 -62.83)"/></svg>
+            <div id="logo-text">RedKV</div>
+          </div>
+          </a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -51,7 +67,7 @@
               <a class="nav-link js-scroll-trigger" href="https://github.com/yefuwang/redkv/blob/master/README.md">Documentation</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#contact">Contribute</a>
+              <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
             </li>
           </ul>
         </div>

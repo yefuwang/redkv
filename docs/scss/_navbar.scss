@@ -75,3 +75,23 @@
     }
   }
 }
+
+#logo-text {
+  font-family: 'Delius', cursive;
+  font-weight: bold;
+  height:35px;
+  display:inline;
+  padding-left:10px;
+  text-transform:none;
+}
+
+#logo-svg {
+  height:35px;
+}
+
+#logo-container{
+  display:flex;
+  align-items:center;
+  margin-left:5px;
+  margin-right:5px;
+}
