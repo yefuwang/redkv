@@ -1,4 +1,12 @@
 'use strict';
+
+// OptionalDependency must be initialized before any stores are
+// initiazlied. Otherwise, the stores requiring an optional dependnecy
+// will not have a correct error message printed. 
+// Therefore it is better to do it at the very ]
+// beginning. 
+require('./optionalDependency').setRoot(module);
+
 const kvStoreFactory = require('./kvStoreFactory');
 
 class RedKV {
@@ -10,8 +18,8 @@ class RedKV {
 
     addStore(storeName, options){
         this._knownReady = false;
-        let store = kvStoreFactory(storeName, options);
-        this._stores.push(kvStoreFactory(storeName, options));
+        let store = kvStoreFactory.build(storeName, options);
+        this._stores.push(store);
         return store;
     }
 

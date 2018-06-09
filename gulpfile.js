@@ -1,11 +1,13 @@
 'use strict';
 
+require('dotenv').config();
+
 var gulp = require('gulp');
 const mocha = require('gulp-mocha');
 
 gulp.task('t', () => {
     process.env.NODE_ENV='test';
-    return gulp.src('test/test_factory.js', {read: false})
+    return gulp.src('test/01_test_installation.js', {read: false})
     .pipe(mocha({"exit":true,"bail":true}))
     .once('error', () => {
         console.log('Exit by error');

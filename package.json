@@ -2,8 +2,14 @@
   "name": "redkv",
   "version": "0.3.0",
   "description": "RedKV: The key-value store supporting multiple database backends",
-  "homepage":"https://redkv.org",
-  "keywords": ["key-value store", "redis", "dynamodb", "mysql", "postgre"],
+  "homepage": "https://redkv.org",
+  "keywords": [
+    "key-value store",
+    "redis",
+    "dynamodb",
+    "mysql",
+    "postgre"
+  ],
   "main": "index.js",
   "scripts": {
     "cover": "./node_modules/istanbul/lib/cli.js  cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --bail --exit && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
@@ -15,12 +21,18 @@
     "type": "git",
     "url": "https://github.com/yefuwang/redkv.git"
   },
-  "engines" : { "node" : ">=6.0.0" },
-  "bugs":{"url":"https://github.com/yefuwang/redkv/issues"},
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/yefuwang/redkv/issues"
+  },
   "dependencies": {
     "aws-sdk": "^2.231.1",
+    "better-sqlite3": "^4.1.1",
     "bluebird": "^3.5.1",
     "chai": "^4.1.2",
+    "codependency": "^2.1.0",
     "lodash": "^4.17.10",
     "mongodb": "^3.0.8",
     "mysql": "^2.15.0",
