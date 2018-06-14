@@ -73,6 +73,9 @@ jobs:
           name: Prepare Mysql
           command: mysql -h 127.0.0.1 -u redtester -predtesterpwd -e "use redkv_test; CREATE TABLE redkv (redk VARCHAR(256), redv TEXT, UNIQUE(redk));"  
       - run:
+          name: Cover1 installs optional dep
+          command: npm run cover1
+      - run:
           name: Test
           command: npm test
       - save_cache:
