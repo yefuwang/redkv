@@ -13,7 +13,7 @@ const exec = require('child_process').exec;
 describe('better-sqlite3 needs to be installed', function(){
     this.timeout(1000000);
     before(function(done){
-        const child = exec('npm uninstall better-sqlite3',
+        const child = exec('npm uninstall better-sqlite3 -S',
             function (error, stdout, stderr) {
                 console.log('stdout: ' + stdout);
                 console.log('stderr: ' + stderr);
@@ -33,7 +33,7 @@ describe('better-sqlite3 needs to be installed', function(){
     });
 
     it('install it', function(done){
-        exec('npm install better-sqlite3',
+        exec('npm install better-sqlite3 -S',
             function (error, stdout, stderr) {
                 console.log('stdout: ' + stdout);
                 console.log('stderr: ' + stderr);
