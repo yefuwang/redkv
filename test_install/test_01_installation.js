@@ -5,7 +5,7 @@ const RedKV = require('../index');
 
 const chai = require('chai');
 const should = chai.should();
-const testStore = require('./test_store');
+const testStore = require('../test/test_store');
 const InputFilter = require('../storeInputFilter');
 const fs = require('fs');
 const exec = require('child_process').exec;

@@ -32,7 +32,13 @@ jobs:
           name: Prepare Mysql
           command: mysql -h 127.0.0.1 -u redtester -predtesterpwd -e "use redkv_test; CREATE TABLE redkv (redk VARCHAR(256), redv TEXT, UNIQUE(redk));"  
       - run:
-          name: Test with code coverage captured
+          name: Test with code coverage captured 1
+          command: npm run cover1
+      - run:
+          name: Test with code coverage captured 2
+          command: npm run cover2
+      - run:
+          name: Merge coverage results
           command: npm run cover
       - save_cache:
           key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-npm-lock-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}

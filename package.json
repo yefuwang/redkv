@@ -1,6 +1,6 @@
 {
   "name": "redkv",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "RedKV: The key-value store supporting multiple database backends",
   "homepage": "https://redkv.org",
   "keywords": [
@@ -12,7 +12,9 @@
   ],
   "main": "index.js",
   "scripts": {
-    "cover": "./node_modules/istanbul/lib/cli.js  cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --bail --exit && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "cover1": "./node_modules/istanbul/lib/cli.js  cover ./node_modules/mocha/bin/_mocha test_install --report lcovonly -- -R spec --bail --exit && mv ./coverage/lcov.info ./coverage/lcov1.info ",
+    "cover2": "./node_modules/istanbul/lib/cli.js  cover ./node_modules/mocha/bin/_mocha test  --report lcovonly -- -R spec --bail --exit && mv ./coverage/lcov.info ./coverage/lcov2.info",
+    "cover": "./node_modules/.bin/lcov-result-merger './coverage/lcov*.info' './coverage/r.info' && cat ./coverage/r.info | ./node_modules/coveralls/bin/coveralls.js",
     "test": "gulp test"
   },
   "author": "Yefu Wang",
@@ -29,7 +31,6 @@
   },
   "dependencies": {
     "aws-sdk": "^2.231.1",
-    "better-sqlite3": "^4.1.1",
     "bluebird": "^3.5.1",
     "chai": "^4.1.2",
     "codependency": "^2.1.0",
@@ -47,7 +48,11 @@
     "gulp": "^3.9.1",
     "gulp-mocha": "^5.0.0",
     "istanbul": "^0.4.5",
+    "lcov-result-merger": "^3.0.0",
     "mocha": "^5.1.1",
     "mocha-lcov-reporter": "^1.3.0"
+  },
+  "optionalPeerDependencies": {
+    "better-sqlite3": "^4.1.1"
   }
 }
