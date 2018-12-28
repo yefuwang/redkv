@@ -2,9 +2,8 @@
 
 // OptionalDependency must be initialized before any stores are
 // initiazlied. Otherwise, the stores requiring an optional dependnecy
-// will not have a correct error message printed. 
-// Therefore it is better to do it at the very ]
-// beginning. 
+// will not have a correct error message printed.
+// Therefore it is better to do it at the very beginning.
 require('./optionalDependency').setRoot(module);
 
 const kvStoreFactory = require('./kvStoreFactory');

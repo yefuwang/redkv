@@ -1,5 +1,6 @@
 "use strict";
 
+require('../index');
 require('dotenv').config();
 
 const DynamodbStore =  require('../stores/dynamodbStore');

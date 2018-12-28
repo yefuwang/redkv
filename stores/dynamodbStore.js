@@ -1,10 +1,14 @@
 'use strict';
 
-const tryRequire = require('try-require');
-const DynamoDB = tryRequire("aws-sdk/clients/dynamodb");
+const optionalDependency = require('../optionalDependency');
+
+var DynamoDB=null;
 
 class DynamoDBStore {
     constructor(options){
+			  if(!DynamoDB) {
+				    DynamoDB = optionalDependency.require("aws-sdk").DynamoDB;
+			  }
         if(!options) {
             throw new Error('Options required when constructing DynamoDBStore');
         }
