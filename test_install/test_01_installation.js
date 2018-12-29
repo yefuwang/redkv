@@ -11,41 +11,41 @@ const fs = require('fs');
 const exec = require('child_process').exec;
 
 describe('better-sqlite3 needs to be installed', function(){
-    this.timeout(1000000);
-    before(function(done){
-        const child = exec('npm uninstall better-sqlite3 -S',
-            function (error, stdout, stderr) {
-                console.log('stdout: ' + stdout);
-                console.log('stderr: ' + stderr);
-                if (error !== null) {
-                    console.log('exec error: ' + error);
-                }
-                done();
-            });
-    });
+	this.timeout(1000000);
+	before(function(done){
+		const child = exec('npm uninstall better-sqlite3 -S',
+			function (error, stdout, stderr) {
+				console.log('stdout: ' + stdout);
+				console.log('stderr: ' + stderr);
+				if (error !== null) {
+					console.log('exec error: ' + error);
+				}
+				done();
+			});
+	});
 
 
-    it('Exceptions', function(){
-        should.Throw(()=>{
-            let redkv = new RedKV();
-            redkv.addStore('sqlite', {path:'/tmp/aaa.sqlite'});
-        });
-    });
+	it('Exceptions', function(){
+		should.Throw(()=>{
+			let redkv = new RedKV();
+			redkv.addStore('sqlite', {path:'/tmp/aaa.sqlite'});
+		});
+	});
 
-    it('install it', function(done){
-        exec("npm install better-sqlite3@'^4.1.1' -S",
-            function (error, stdout, stderr) {
-                console.log('stdout: ' + stdout);
-                console.log('stderr: ' + stderr);
-                if (error !== null) {
-                    console.log('exec error: ' + error);
-                }
-                done();
-            });
-    });
+	it('install it', function(done){
+		exec("npm install better-sqlite3 -S",
+			function (error, stdout, stderr) {
+				console.log('stdout: ' + stdout);
+				console.log('stderr: ' + stderr);
+				if (error !== null) {
+					console.log('exec error: ' + error);
+				}
+				done();
+			});
+	});
 
-    it('Good after installation', function(){
-        require('../stores/sqliteStore');
-    });
+	it('Good after installation', function(){
+		require('../stores/sqliteStore');
+	});
 });
 
