@@ -32,8 +32,7 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "codependency": "^2.1.0",
-    "lodash": "^4.17.10",
-    "try-require": "^1.2.1"
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
     "chai": "^4.2.0",
