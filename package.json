@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "bluebird": "^3.5.1",
-    "chai": "^4.1.2",
     "codependency": "^2.1.0",
     "lodash": "^4.17.10",
     "mongodb": "^3.0.8",
@@ -41,6 +40,7 @@
     "try-require": "^1.2.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "coveralls": "^3.0.1",
     "dotenv": "^5.0.1",
@@ -53,6 +53,6 @@
   },
   "optionalPeerDependencies": {
     "better-sqlite3": "^4.1.1",
-		"aws-sdk": "^2.231.1"
+    "aws-sdk": "^2.231.1"
   }
 }
