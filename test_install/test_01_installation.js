@@ -33,7 +33,7 @@ describe('better-sqlite3 needs to be installed', function(){
     });
 
     it('install it', function(done){
-        exec('npm install better-sqlite3 -S',
+        exec("npm install better-sqlite3@'^4.1.1' -S",
             function (error, stdout, stderr) {
                 console.log('stdout: ' + stdout);
                 console.log('stderr: ' + stderr);
