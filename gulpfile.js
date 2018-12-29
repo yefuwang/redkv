@@ -22,29 +22,13 @@ gulp.task('t', () => {
 gulp.task('test_install', () => {
     process.env.NODE_ENV='test';
     return gulp.src('test_install/*.js', {read: false})
-    .pipe(mocha({"exit":true,"bail":true}))
-    .once('error', () => {
-        console.log('Exit by error');
-        process.exit(1);
-    })
-    .once('end', () => {
-        process.exit();
-    })
-    ;
+    .pipe(mocha({"exit":true,"bail":true}));
 });
 
 
 gulp.task('test', () => {
     process.env.NODE_ENV='test';
     return gulp.src('test/test_*.js', {read: false})
-    .pipe(mocha({"exit":true,"bail":true, "reporter":"spec"}))
-    .once('error', () => {
-        console.log('Exit by error');
-        process.exit(1);
-    })
-    .once('end', () => {
-        process.exit();
-    })
-    ;
+    .pipe(mocha({"exit":true,"bail":true, "reporter":"spec"}));
 });
 
