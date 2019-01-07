@@ -32,7 +32,11 @@ Let's create a RedKV with a Redis store at the front and a DynamoDB store at the
 
 ```javascript
 let kvStore = new RedKV();
-kvStore.addStore('redis');
+kvStore.addStore('redis', {
+        host: "127.0.0.1",
+        port: 6379,
+        db: 0 
+    });
 kvStore.addStore('dynamodb', {
         region: "us-east-1",
         endpoint: "https://DynamoDB.us-east-1.amazonaws.com",
