@@ -152,6 +152,11 @@ The Redis store can be added to a RedKV instance using `'redis'` as the paramete
 ```javascript
 let kvStore = new RedKV();
 kvStore.addStore('redis', options);
+//options : {
+//        host: "127.0.0.1",
+//        port: 6379,
+//        db: 0 
+//    }
 ```
 
 The `options` object will be passed to [node_redis module](https://github.com/NodeRedis/node_redis). Please refer to node_redis document for details. 
