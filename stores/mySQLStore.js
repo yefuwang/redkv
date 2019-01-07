@@ -67,7 +67,7 @@ class MySQLStore {
 	get(key) {
 		let sql = 'SELECT '+ this._pool.escapeId(this.valueColumn) +
 			'  FROM ' +  this._pool.escapeId(this.tableName) + 
-			' where '+ this._pool.escapeId(this.keyColumn) +
+			' WHERE '+ this._pool.escapeId(this.keyColumn) +
 			' = ' +this._pool.escape(key)
 		return this._query(sql)
 			.then(val=>{
@@ -82,7 +82,7 @@ class MySQLStore {
 
 	delete(key) {
 		let sql = 'DELETE FROM ' +  this._pool.escapeId(this.tableName) + 
-			' where '+ this._pool.escapeId(this.keyColumn) +
+			' WHERE '+ this._pool.escapeId(this.keyColumn) +
 			' = ' +this._pool.escape(key);
 		return this._query (sql);
 	}
