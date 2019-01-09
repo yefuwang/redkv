@@ -20,7 +20,9 @@ class MongoDBStore {
 			.then((client)=>{
 				this._db = client.db();
 				this._collection = this._db.collection(collectionName);
-				return this._collection.createIndex({[this.keyField]:1}, {unique:true});
+				// unique option will not work for the _id field
+				let mongoOptions = this.keyField == '_id'?{}:{unique:true};
+				return this._collection.createIndex({[this.keyField]:1}, mongoOptions);
 			});
 	}
 
