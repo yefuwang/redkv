@@ -1,6 +1,6 @@
 {
   "name": "redkv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "RedKV: The key-value store supporting multiple database backends",
   "homepage": "https://redkv.org",
   "keywords": [
