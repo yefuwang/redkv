@@ -5,8 +5,7 @@ $code-block-radius:10px;
 .example-code {
     text-align : left;
     background-color : white;
-    padding-top:1em;
-    padding-bottom:1em;
+    padding:1em;
     border-bottom-left-radius: $code-block-radius;
     border-bottom-right-radius: $code-block-radius;
 }

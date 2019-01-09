@@ -100,7 +100,7 @@
             <p class="text-faded mb-4">If multiple databases are configured, the reading and writing behave as if it is a caching system. When writing to RedKV, the key-value pair gets to write to all databases. When getting a key, RedKV sequentially tries a database from the front of the list, moves on to the next database if the key was not found, and stops until the key is found in a database. After that, the key-value pair is filled to all the databases in front of the list, up to the database where the key is actually found, just like filling a cache.</p>
             <div class="example-code-container">
               <div class="example-code-title">Example: Redis-Cached DynamoDB KV Store</div>
-              <pre class="example-code prettyprint lang-js linenums">let kvStore = new RedKV();
+              <pre class="example-code prettyprint lang-js">let kvStore = new RedKV();
 kvStore.addStore('redis');
 kvStore.addStore('dynamodb', {
         region: "us-east-1",
@@ -252,8 +252,7 @@ kvStore.addStore('dynamodb', {
     <!-- Plugin JavaScript -->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="vendor/scrollreveal/scrollreveal.min.js"></script>
-
-    <script src="vendor/google-code-prettify/prettify.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=js&amp;skin=desert"></script>
 
     <!-- Custom scripts for this template -->
     <script src="js/creative.min.js"></script>
