@@ -28,7 +28,7 @@ gulp.task('test_install', () => {
 
 gulp.task('test', () => {
     process.env.NODE_ENV='test';
-    return gulp.src('test/test_*.js', {read: false})
+    return gulp.src('test/*.js', {read: false})
     .pipe(mocha({"exit":true,"bail":true, "reporter":"spec"}));
 });
 
