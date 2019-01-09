@@ -16,13 +16,15 @@ class MongoDBStore {
 		const collectionName= (options||{}).collection || 'redKV';
 		this.keyField = (options ||{}).keyField || 'redK';
 		this.valueField = (options ||{}).valueField || 'redV';
+		this.dbName = (options ||{}).dbName || null;
 		this._readyPromise = MongoClient.connect(url)
 			.then((client)=>{
-				this._db = client.db();
+				this._db = this.dbName?client.db(this.dbName):client.db();
 				this._collection = this._db.collection(collectionName);
 				// unique option will not work for the _id field
-				let mongoOptions = this.keyField == '_id'?{}:{unique:true};
-				return this._collection.createIndex({[this.keyField]:1}, mongoOptions);
+				if (this.keyField !== '_id') {
+				return this._collection.createIndex({[this.keyField]:1}, {unique:true});
+				}
 			});
 	}
 

@@ -42,7 +42,8 @@ const singleStoreTests = [
         valueColumn: 'redv'
     }},
     {storeName: 'memory', options:{}}, // #6
-    {storeName: 'sqlite', options:{path: '/tmp/b.sqlite'}}  // #7
+    {storeName: 'sqlite', options:{path: '/tmp/b.sqlite'}},  // #7
+    {storeName: 'mongodb', options: {collection:'c4', dbName:'my'}}, // #3
 ];
 
 const singleTestBuilder = function(conf){

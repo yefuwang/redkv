@@ -205,6 +205,10 @@ The field in the collection which will be used to store keys. This field will be
 
 The field in the collection which will be used to store values.  If omitted, it will default to `'redV'`. 
 
+### `dbName`
+
+The Database Name used in this store. If it is already part of the url. this parameter is optional.
+
 
 ## <a name="mysqlstore"></a>MySQL
 
